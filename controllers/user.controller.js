@@ -73,37 +73,50 @@ export async function registerUserController(request,response){
 }
 
 
-export async function verifyEmailController(request,response){
-    try {
-        const { code } = request.body
+export async function verifyEmailController(request, response) {
+  try {
+    const { code } = request.body;
 
-        const user = await UserModel.findOne({ _id : code})
-
-        if(!user){
-            return response.status(400).json({
-                message : "Invalid code",
-                error : true,
-                success : false
-            })
-        }
-
-        const updateUser = await UserModel.updateOne({ _id : code },{
-            verify_email : true
-        })
-
-        return response.json({
-            message : "Verify email done",
-            success : true,
-            error : false
-        })
-    } catch (error) {
-        return response.status(500).json({
-            message : error.message || error,
-            error : true,
-            success : true
-        })
+    // Validate the code
+    if (!code) {
+      return response.status(400).json({
+        message: "Verification code is required",
+        error: true,
+        success: false
+      });
     }
+
+    const user = await UserModel.findById(code);
+
+    if (!user) {
+      return response.status(404).json({
+        message: "User not found or invalid code",
+        error: true,
+        success: false
+      });
+    }
+
+    // Update verification status
+    await UserModel.updateOne(
+      { _id: code },
+      { verify_email: true }
+    );
+
+    return response.status(200).json({
+      message: "🎉 Congratulations! Your email has been verified",
+      error: false,
+      success: true
+    });
+
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || "Internal server error",
+      error: true,
+      success: false
+    });
+  }
 }
+
 
 //login controller
 export async function loginController(request,response){
