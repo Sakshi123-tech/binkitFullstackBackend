@@ -17,10 +17,7 @@ import orderRouter from './route/order.route.js'
 import { webhookStripe } from './controllers/order.controller.js'
 
 const app = express()
-app.use(cors({
-    credentials : true,
-    origin : process.env.FRONTEND_URL
-}))
+app.use(cors());
 app.post(
   "/api/order/webhook",
   express.raw({ type: "application/json" }),
