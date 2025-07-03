@@ -17,7 +17,22 @@ import orderRouter from './route/order.route.js'
 import { webhookStripe } from './controllers/order.controller.js'
 
 const app = express()
-app.use(cors());
+const allowedOrigins = [
+  "https://blinkitfullstackproject.onrender.com",
+  "https://Blinkitgrocerywebsite.onrender.com", 
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.post(
   "/api/order/webhook",
   express.raw({ type: "application/json" }),
