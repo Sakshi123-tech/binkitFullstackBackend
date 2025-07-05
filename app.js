@@ -17,12 +17,13 @@ import orderRouter from './route/order.route.js'
 import { webhookStripe } from './controllers/order.controller.js'
 
 const app = express()
-const allowedOrigins = [
-  "https://blinkitfullstackproject.onrender.com",
-  "https://binkitwebsite.onrender.com", 
-];
+app.use(cors({
+  origin: function(origin, callback) {
+    callback(null, origin);
+  },
+  credentials: true
+}));
 
-app.use(cors());
 app.post(
   "/api/order/webhook",
   express.raw({ type: "application/json" }),
