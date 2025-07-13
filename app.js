@@ -18,7 +18,7 @@ import { webhookStripe } from './controllers/order.controller.js'
 
 const app = express()
 const allowedOrigins = [
-  'https://blinkitgrocerywebsite.onrender.com',
+  'https://blinkitgrocerywebsiteinmin.onrender.com',
   'https://blinkitfullstackfrontend.onrender.com'
 ];
 
