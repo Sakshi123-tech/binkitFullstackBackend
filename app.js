@@ -24,6 +24,7 @@ const allowedOrigins = [
   'https://blinkitfullstackfrontend.vercel.app',
   'https://blinkitgrocery.vercel.app',
   'https://blinkitbasket.vercel.app',
+  'https://blinkbasket-eight.vercel.app'
 ];
 
 app.use(cors({
